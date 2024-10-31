@@ -1,0 +1,211 @@
+{% extends 'partial/base.html' %}
+{% load static %}
+{% block content %}
+
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'OCS_APP:index' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                    <span></span> Shop
+                    <span></span> Checkout
+                </div>
+            </div>
+    </div>
+    <div class="container mb-80 mt-50">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="border p-40 cart-totals ml-30 mb-50">
+                    <div class="col-lg-6 mb-40">
+                        <h1 class="heading-2 mb-10">Checkout</h1>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="text-body">Just a last step, please enter your details:</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <form method="POST" class="mb-4">
+                                {% csrf_token %}
+                                <div class="card-hdeader">
+                                    <h6>Add New Delivery Address:</h6><br>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <input type="text" name="address" placeholder="Address" required class="form-control" value="">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" name="mobile" placeholder="Mobile" required class="form-control" value="">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit"><strong>Save</strong></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <br>
+                        {% for a in address %}
+                            <div class="col-lg-6 address-container">
+                                <div class="card mb-3 mb-lg-0">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Address {{forloop.counter}}</h5>
+                                    </div>
+                                    <div class="card-body border rounded">
+                                        <address>
+                                            <p><i class="fa fa-home"></i>   {{a.address}}</p>
+                                            <p><i class="fa fa-phone"></i> {{a.mobile}}</p>
+                                            <p><i class="fa fa-envelope"></i> {{a.mobile}}</p>
+                                        </address>
+                                        <br>
+                                        {% if a.status %}
+                                            <i data-address-id="{{a.id}}" class="fa fa-check-circle text-success check{{a.id}} check"></i>
+                                            <button data-address-id="{{a.id}}" style="display: none;" class="btn make-default-address button{{a.id}} action_btn">Select Address</button>
+                                            <button data-address-id="{{a.id}}" style="border: none; color:red; display: none; background-color: white;" class="delete-address button{{a.id}} action_btn"><i class="fas fa-trash"></i></button>
+                                        {% else %}
+                                            <i data-address-id="{{a.id}}" style="display: none;"  class="fa fa-check-circle text-success check check{{a.id}}"></i>
+                                            <button data-address-id="{{a.id}}" class="btn make-default-address button{{a.id}} action_btn">Select Address</button>
+                                            <button data-address-id="{{a.id}}" style="border: none; color:red; background-color: white;" class="delete-address button{{a.id}} action_btn"><i class="fas fa-trash"></i></button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="border p-40 cart-totals ml-30 mb-50">
+                        <div class="d-flex align-items-end justify-content-between mb-30">
+                            <h5>Order Summary</h5>
+                        </div>
+                        <div class="table-responsive order_table checkout" style="border: 1px solid;">
+                            <table class="table no-border">
+                                <tbody>
+                                {% for product_id, item in cart_data.items %}
+                                    <tr style="border: none;">
+                                        <td>
+                                            <h6 class="w-160 mb-5"><a href="{% url 'OCS_APP:product-detail' item.pid %}" class="text-heading">{{item.title}}</a></h6></span>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-muted pl-20 pr-20">x {{item.qty}}</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-brand">Rs {% widthratio item.price 1 item.qty %}</h6>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: none;">
+                                        <td colspan="3">
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                {% endfor %} 
+                                </tbody>
+                            </table>
+                            <div>
+                                <table class="table no-border">
+                                    <tbody>
+                                        <tr style="border: none;">
+                                            <td>
+                                                <h5 class="w-160 mb-5"><a class="text-heading">Grand Total:</a></h5></span>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted pl-95 pr-20"></h6>
+                                            </td>
+                                            <td>
+                                                <h5 class="text-brand">Rs {{cart_total_amount|floatformat:2}}</h5>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="d-flex align-items-end justify-content-between mb-30">
+                            <h5>Payment Methods</h5>
+                        </div>
+                            <div class="row">
+                                <div class="mx-auto">
+                                    <div class="card ">
+                                        <div class="card-header">
+                                            <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                                        <!-- Payment form tabs -->
+                                        <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                                            <li class="nav-item"> <a data-toggle="pill" href="#cash" class="nav-link active"> <i class="fab fa-paypal mr-2"></i> Cash On Delivery </a> </li>
+                                       <!--     <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link"> <i class="fas fa-credit-card mr-2"></i> Credit Card </a> </li> -->
+                                        </ul>
+                                    </div> <!-- End -->
+                                    <!-- Credit card form content -->
+                                    <div class="tab-content">
+                                        <!-- credit card info
+                                        <div id="credit-card" class="tab-pane fade pt-3">
+                                            <form role="form" onsubmit="event.preventDefault()">
+                                                <div class="form-group"> <label for="username">
+                                                        <h6>Card Owner</h6>
+                                                    </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control" style="height: auto;"> </div>
+                                                <div class="form-group"> <label for="cardNumber">
+                                                        <h6>Card number</h6>
+                                                    </label>
+                                                    <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control" required style="height: auto;">
+                                                        <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group"> <label><span class="hidden-xs">
+                                                                    <h6>Expiration Date</h6>
+                                                                </span></label>
+                                                            <div class="input-group"> <input style="height: auto;" type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required style="height: auto;"> </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
+                                                                <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
+                                                            </label> <input type="text" required class="form-control" style="height: auto;"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
+                                            </form>
+                                        </div>-->
+                                    </div> <!-- End -->
+
+                                    <!--Paypal info -->
+                                    <!--<div id="paypal" class="tab-pane fade pt-3">
+                                        <h6 class="pb-2">Select your paypal account type</h6>
+                                        <div class="form-group "> <label class="radio-inline"> <input style="height: auto;" type="radio" name="optradio" checked> Domestic </label> <label class="radio-inline"> <input type="radio" name="optradio" class="ml-5" style="height: auto;">International </label></div>
+                                        <p> <button type="button" class="btn btn-primary "><i class="fab fa-paypal mr-2"></i> Log into my Paypal</button> </p>
+                                        <p class="text-muted"> Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website to view details of your order. </p>
+                                    </div>--> <!-- End -->
+
+                                    <!--Cash On Delivery info -->
+                                    <div id="cash" class="tab-pane show active fade pt-3">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="Cash On Delivery" name="payment_method">
+                                            <div class="card-footer"> <button type="submit" class="subscribe btn btn-primary btn-block shadow-sm"> Place Order </button>
+                                        </form>
+                                    </div><!-- End -->
+                          
+                                    </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
+
+{% endblock content %}

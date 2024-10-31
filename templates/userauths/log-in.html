@@ -1,0 +1,76 @@
+{% extends 'partial/base.html' %}
+{% load static %}
+{% block content %}
+
+<main class="main pages">
+	<div class="page-header breadcrumb-wrap">
+		<div class="container">
+			<div class="breadcrumb">
+				<a href="{% url 'OCS_APP:index' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+				<span></span> Login
+			</div>
+		</div>
+	</div>
+
+	<div class="page-content pt-60 pb-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+					<div class="row">
+						<div class="col-lg-6 pr-30 d-none d-lg-block" style="text-align: center;">
+							<img class="border-radius-15" src="{% static 'assets/imgs/theme/OCS.png' %}" alt="" />
+		<!--					<div class="card-login" style="position: relative; right: 13px; border: none;">
+								<a href="#" class="social-login facebook-login">
+									<img src="{% static 'assets/imgs/theme/icons/logo-facebook.svg' %}" alt="" />
+									<span style="font-size: 18.5px;">Login with Facebook</span>
+								</a>
+								<a href="#" class="social-login google-login" style="border: 1px solid #7E7E7E;">
+									<img src="{% static 'assets/imgs/theme/icons/logo-google.svg' %}" alt="" />
+									<span>Login with Google</span>
+								</a>
+							</div>-->
+						</div>
+						<div class="col-lg-6 col-md-8">
+							<div class="login_wrap widget-taber-content background-white">
+								<div class="padding_eight_all bg-white">
+									<div class="heading_s1">
+										<h1 class="mb-5">Login</h1>
+										<p class="mb-30">Don't have an account? <a href="{% url 'userauths:register' %}">Create here</a></p>
+									</div>
+									<form method="POST">
+										{% csrf_token %}
+										<div class="form-group">
+											<input type="text" required name="email" placeholder="Your Email Address *" />
+										</div>
+										<div class="form-group">
+											<input required type="password" name="password" placeholder="Your password *" />
+										</div>
+										<div class="login_footer form-group mb-20">
+											<div class="chek-form"></div>
+											<a class="text-muted" href="{% url 'userauths:forgot_password' %}">Forgot password?</a>
+										</div>
+										<div class="form-group mb-30">
+											<button type="submit" class="btn btn-heading btn-block hover-up" name="login">Log in</button>
+										</div>
+								<!--	<div class="form-group social-login-buttons">
+											<a href="#" class="social-login facebook-login" style="background-color: #1877F2;">
+												<img src="{% static 'assets/imgs/theme/icons/logo-facebook.svg' %}" alt="Facebook Logo" />
+												<span style="color: #fff;">Login with Facebook</span>
+											</a>
+											<a href="#" class="social-login google-login">
+												<img src="{% static 'assets/imgs/theme/icons/logo-google.svg' %}" alt="Google Logo" />
+												<span>Login with Google</span>
+											</a>
+										</div>	-->	
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>  
+
+{% endblock content %}

@@ -1,0 +1,215 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <title>Oral Care Solution</title>
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/imgs/theme/OCS.png' %}" />
+    <style>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Header */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-toggle {
+    background-color: #ff6347;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.cart-toggle span {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+}
+
+/* Cart Sidebar */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 350px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff6347;
+    color: #fff;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cart-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.cart-content ul {
+    list-style: none;
+}
+
+.cart-content li {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-footer {
+    padding: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+.checkout-btn {
+    background-color: #ff6347;
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+}
+
+.overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Active State */
+.cart-sidebar.show {
+    right: 0;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+    .cart-sidebar {
+        width: 100%;
+    }
+
+    .cart-toggle {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .cart-toggle span {
+        font-size: 20px;
+    }
+}
+    </style>
+   
+</head>
+
+<body>
+
+    <header>
+        <h1>Your Website</h1>
+        <button class="cart-toggle" id="cartToggle">
+            <span>&#128722;</span> <!-- Cart Icon -->
+            Cart
+        </button>
+    </header>
+
+
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-btn" id="closeBtn">&times;</button>
+        </div>
+        <div class="cart-content">
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <!-- List items for the cart -->
+            </ul>
+        </div>
+        <div class="cart-footer">
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        document.getElementById('cartToggle').addEventListener('click', function() {
+            document.getElementById('cartSidebar').classList.add('show');
+            document.getElementById('overlay').classList.add('show');
+        });
+
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            document.getElementById('cartSidebar').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        });
+
+        document.getElementById('overlay').addEventListener('click', function() {
+            document.getElementById('cartSidebar').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        });
+    </script>
+
+</body>
+
+</html>
